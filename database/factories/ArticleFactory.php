@@ -14,6 +14,8 @@ $factory->define(Article::class, function (Faker $faker) {
         'body' => $faker->text,
         'map_query' => $faker->city,
         'main_filename' => Str::random(12). '.jpg',
-        'user_id' => fn() => factory(User::class)->create()->id,
+        'user_id' => function() {
+          return factory(User::class)->create();
+        }
     ];
 });
