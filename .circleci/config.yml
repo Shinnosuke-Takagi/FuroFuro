@@ -23,7 +23,7 @@ jobs:
       - run:
          name: install php extension gd
          command: |
-          sudo apt-get install -y libpng-dev libjpeg-dev libfreetype-dev
+          sudo apt-get install -y libpng-dev libjpeg-dev libfreetype6-dev
           sudo docker-php-ext-install gd
       - run: composer install -n --prefer-dist
       - run:
