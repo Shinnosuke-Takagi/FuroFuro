@@ -7,7 +7,7 @@ jobs:
   build:
     docker:
       # Specify the version you desire here
-      - image: circleci/php:7.3-fpm-alpine
+      - image: circleci/php:7.3-node-browse
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -20,8 +20,11 @@ jobs:
 
     steps:
       - checkout
-      - run: sudo apk add freetype-dev libjpeg-turbo-dev libpng-dev
-      - run: sudo docker-php-ext-install gd
+      - run:
+         name: install php extension gd
+         command: |
+          sudo apt-get install -y libpng-dev
+          sudo docker-php-ext-install gd
       - run: composer install -n --prefer-dist
       - run:
          name: base64 decode env file
