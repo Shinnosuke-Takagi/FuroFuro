@@ -20,7 +20,7 @@ jobs:
 
     steps:
       - checkout
-      - run: sudo apk add freetype-dev libjpeg-turbo-dev libpng-dev
+      - run: sudo apt install -y freetype-dev libjpeg-turbo-dev libpng-dev
       - run: sudo docker-php-ext-install gd
       - run: composer install -n --prefer-dist
       - run:
