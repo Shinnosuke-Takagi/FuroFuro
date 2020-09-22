@@ -26,7 +26,13 @@ jobs:
           sudo apt-get install -y libpng-dev libjpeg-dev
           sudo docker-php-ext-configure gd --with-png-dir=/usr/include/ --with-jpeg-dir=/usr/include/
           sudo docker-php-ext-install gd
+      - restore_cache:
+         key: composer-v1-{{ checksum "composer.lock" }}
       - run: composer install -n --prefer-dist
+      - save_cache:
+         key: composer-v1-{{ checksum "composer.lock" }}
+         paths:
+           - vendor
       - run:
          name: base64 decode env file
          command: echo $ENV_FILE | base64 -di > .env.testing
