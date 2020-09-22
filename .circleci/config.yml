@@ -21,6 +21,9 @@ jobs:
     steps:
       - checkout
       - run: composer install -n --prefer-dist
+      - run:
+         name: base64 decode env file
+         command: echo $ENV_FILE | base64 -di > .env.testing
       - run: npm ci
       - run: npm run dev
       - run:
