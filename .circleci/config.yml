@@ -9,10 +9,10 @@ jobs:
       # Specify the version you desire here
       - image: circleci/php:7.3-node-browsers
       - image: circleci/mysql:8.0
-         environment:
-           MYSQL_DATABASE: homestead
-           MYSQL_USER: homestead
-           MYSQL_PASSWORD: secret
+        environment:
+         MYSQL_DATABASE: homestead
+         MYSQL_USER: homestead
+         MYSQL_PASSWORD: secret
     environment:
       APP_ENV: testing
       DB_CONNENCTION: mysql
