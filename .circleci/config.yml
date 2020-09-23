@@ -8,6 +8,19 @@ jobs:
     docker:
       # Specify the version you desire here
       - image: circleci/php:7.3-node-browsers
+      - image: circleci/mysql:8.0
+        environment:
+         MYSQL_DATABASE: homestead
+         MYSQL_USER: homestead
+         MYSQL_PASSWORD: secret
+    environment:
+      APP_ENV: testing
+      DB_CONNENCTION: mysql
+      DB_HOST: localhost
+      DB_PORT: 3306
+      DB_DATABASE: homestead
+      DB_USERNAME: homestead
+      DB_PASSWORD: secret
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -21,11 +34,13 @@ jobs:
     steps:
       - checkout
       - run:
-         name: install php extension gd
+         name: install php extensions
          command: |
           sudo apt-get install -y libpng-dev libjpeg-dev
           sudo docker-php-ext-configure gd --with-png-dir=/usr/include/ --with-jpeg-dir=/usr/include/
-          sudo docker-php-ext-install gd
+          sudo docker-php-ext-install gd pdo_mysql
+          sudo docker-php-ext-enable pdo_mysql
+          dockerize -wait tcp://localhost:3306 -timeout 1m
       - restore_cache:
          key: composer-v1-{{ checksum "composer.lock" }}
       - run: composer install -n --prefer-dist
