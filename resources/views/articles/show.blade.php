@@ -17,7 +17,7 @@
           </div>
         </div>
         @if($article->user_id === Auth::id())
-          <a href="{{ route('articles.edit', ['article' => $article]) }}" class="btn btn-primary">edit</a>
+          <a href="{{ route('articles.edit', ['article' => $article]) }}" class="btn btn-info">edit</a>
           <form method="POST" action="{{ route('articles.destroy', ['article' => $article]) }}">
             @method('DELETE')
             @csrf
