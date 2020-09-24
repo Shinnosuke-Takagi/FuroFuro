@@ -5,8 +5,8 @@
       class="btn m-0 p-1 shadow-none"
     >
       <i
-        class="fas fa-heart mr-1"
-        :class="{'text-danger':this.isLikedBy}"
+        class="fas fa-thumbs-up mr-1"
+        :class="{'text-primary':this.isLikedBy}"
         @click="clickLike"
       />
     </button>
