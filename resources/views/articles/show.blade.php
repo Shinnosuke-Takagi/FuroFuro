@@ -27,7 +27,7 @@
 
       <div class="card-body">
         <div class="d-flex flex-row">
-          <h5 class="card-title">{{ $article->title }}</h5>
+          <h5 class="card-title"><i class="fas fa-hot-tub mr-1 indigo-text"></i>{{ $article->title }}</h5>
           <article-like
             class="ml-auto mr-4"
             :initial-is-liked-by='@json($article->isLikedBy(Auth::user()))'
@@ -38,25 +38,42 @@
         </div>
         <div class="d-flex flex-row">
           @if($article->user_id === Auth::id())
-          <a href="{{ route('articles.edit', ['article' => $article]) }}" class="btn btn-primary btn-sm">edit</a>
-          <form method="POST" action="{{ route('articles.destroy', ['article' => $article]) }}">
-            @method('DELETE')
-            @csrf
-            <button type="submit" class="btn btn-danger btn-sm">delete</button>
-          </form>
-          @else
-          <a href="{{ route('comment.create', ['article' => $article]) }}" class="btn btn-primary btn-sm">Add Comment</a>
+            <a href="{{ route('articles.edit', ['article' => $article]) }}" class="btn btn-primary btn-sm">edit</a>
+            <form method="POST" action="{{ route('articles.destroy', ['article' => $article]) }}">
+              @method('DELETE')
+              @csrf
+              <button type="submit" class="btn btn-danger btn-sm">delete</button>
+            </form>
           @endif
         </div>
         <p class="card-text">{{ $article->body }}</p>
       </div>
 
-      <div class="card-footer">
-        <iframe src="https://maps.google.co.jp/maps?output=embed&q={{ $article->map_query }}"></iframe>
+      <div class="card-body">
+        <h6 class="indigo-text"><i class="fas fa-map-marked-alt mr-1"></i>お店の場所</h6>
+        <div id="map-container-google-1" class="z-depth-1-half map-container" style="overflow: hidden; position: relative; padding-bottom: 50%;" height="50px">
+          <iframe src="https://maps.google.co.jp/maps?output=embed&q={{ $article->map_query }}" frameborder="0" style="border:0; position: absolute;" allowfullscreen width="100%" height="100%"></iframe>
+        </div>
       </div>
-      @foreach($article->comments as $comment)
-        <p class="card-text">{{ $comment->content }}</p>
-      @endforeach
+
+        <div class="card-body">
+          <h6 class="indigo-text"><i class="fas fa-comments mr-1"></i>みんなのコメント</h6>
+          @if($article->user_id !== Auth::id())
+            <a href="{{ route('comment.create', ['article' => $article]) }}" class="btn btn-primary btn-sm ml-auto">Add Comment</a>
+          @endif
+        </div>
+        <div class="card">
+          @foreach($comments as $comment)
+          <div class="card-body">
+            <h5 class="card-title">{{ $comment->user->name }}</h5>
+            <p class="card-text">{{ $comment->content }}</p>
+          </div>
+          @endforeach
+          <div class="card-body">
+            {{ $comments->links() }}
+          </div>
+        </div>
+
     </div>
   </div>
 @endsection

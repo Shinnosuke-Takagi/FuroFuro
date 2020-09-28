@@ -10,7 +10,7 @@
           </a>
           <div class="card-body">
             <div class="d-flex flex-row">
-              <h5 class="card-title">{{ $article->title }}</h5>
+              <h5 class="card-title"><i class="indigo-text fas fa-hot-tub mr-1"></i>{{ $article->title }}</h5>
               <article-like
               class="ml-auto mr-4"
               :initial-is-liked-by='@json($article->isLikedBy(Auth::user()))'
