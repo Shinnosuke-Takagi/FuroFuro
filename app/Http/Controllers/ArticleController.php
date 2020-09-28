@@ -79,10 +79,12 @@ class ArticleController extends Controller
     public function show(Article $article)
     {
         $photos = $article->photos;
+        $comments = $article->comments()->paginate(5);
 
         return view('articles.show', [
           'article' => $article,
           'photos' => $photos,
+          'comments' => $comments,
         ]);
     }
 
