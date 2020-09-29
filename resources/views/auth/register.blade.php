@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">ユーザー登録</div>
+                <div class="card-header aqua-gradient text-white">ユーザー登録</div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('register') }}">
