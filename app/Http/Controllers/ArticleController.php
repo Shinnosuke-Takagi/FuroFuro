@@ -12,6 +12,10 @@ use Carbon\Carbon;
 
 class ArticleController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Article::class, 'article');
+    }
     public function index()
     {
         $articles = Article::all()->sortByDesc('created_at');
