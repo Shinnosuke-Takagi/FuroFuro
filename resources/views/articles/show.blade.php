@@ -46,6 +46,9 @@
             </form>
           @endif
         </div>
+      </div>
+      <div class="card-body">
+        <h6 class="indigo-text"><i class="fas fa-align-left mr-1"></i>お店について</h6>
         <p class="card-text">{{ $article->body }}</p>
       </div>
 
