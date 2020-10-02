@@ -49,13 +49,13 @@
                             @endif
                         @else
                             <li class="nav-item">
-                              <a class="nav-link" href="{{ route('articles.create') }}">create</a>
+                              <a class="nav-link" href="{{ route('articles.create') }}">投稿する</a>
                             </li>
                             <li class="nav-item">
                               <a class="nav-link" href="{{ route('logout') }}"
                                   onclick="event.preventDefault();
                                                 document.getElementById('logout-form').submit();">
-                                  {{ __('Logout') }}
+                                  ログアウト
                               </a>
                             </li>
 
