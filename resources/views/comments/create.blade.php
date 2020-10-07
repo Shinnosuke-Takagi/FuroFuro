@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">コメント</div>
+                <div class="card-header aqua-gradient text-white">コメントの追加</div>
 
                 <div class="card-body">
                     @if($errors->any())
