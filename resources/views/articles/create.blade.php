@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">記事の投稿</div>
+                <div class="card-header aqua-gradient text-white">記事の投稿</div>
 
                 <div class="card-body">
                     @if($errors->any())

@@ -9,6 +9,7 @@ use App\Http\Requests\ArticleRequest;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use InterventionImage;
 
 class ArticleController extends Controller
 {
@@ -31,14 +32,18 @@ class ArticleController extends Controller
     public function store(ArticleRequest $request)
     {
       $article = new Article();
+      $main_file = $request->file('main_filename');
 
       $article->title = $request->title;
       $article->body = $request->body;
       $article->map_query = $request->map_query;
-      $article->main_filename = $request->file('main_filename')->getClientOriginalName();
+      $article->main_filename = $main_file->getClientOriginalName();
       $article->user_id = $request->user()->id;
 
-      Storage::cloud()->putFileAs('', $request->file('main_filename'), $article->main_filename, 'public');
+      InterventionImage::make($main_file)
+            ->heighten(300)->save();
+
+      Storage::cloud()->putFileAs('', $main_file, $article->main_filename, 'public');
 
       if(! empty($request->file('files'))) {
         $files = $request->file('files');
@@ -49,6 +54,9 @@ class ArticleController extends Controller
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
           ];
+
+          InterventionImage::make($file)
+                ->heighten(300)->save();
 
           Storage::cloud()->putFileAs('', $file, $file->getClientOriginalName(), 'public');
 
@@ -111,13 +119,18 @@ class ArticleController extends Controller
         $photo->delete();
       }
 
+      $main_file = $request->file('main_filename');
+
       $article->title = $request->title;
       $article->body = $request->body;
       $article->map_query = $request->map_query;
-      $article->main_filename = $request->file('main_filename')->getClientOriginalName();
+      $article->main_filename = $main_file->getClientOriginalName();
       $article->user_id = $request->user()->id;
 
-      Storage::cloud()->putFileAs('', $request->file('main_filename'), $article->main_filename, 'public');
+      InterventionImage::make($main_file)
+            ->heighten(300)->save();
+
+      Storage::cloud()->putFileAs('', $main_file, $article->main_filename, 'public');
 
       if(! empty($request->file('files'))) {
         $files = $request->file('files');
@@ -128,6 +141,9 @@ class ArticleController extends Controller
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
           ];
+
+          InterventionImage::make($file)
+                ->heighten(300)->save();
 
           Storage::cloud()->putFileAs('', $file, $file->getClientOriginalName(), 'public');
 
