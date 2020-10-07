@@ -74,13 +74,16 @@ jobs:
     steps:
       - add_ssh_keys
       - run:
+         name: install gd library
+         command: |
+          sudo apt-get install -y libpng-dev libjpeg-dev
+          sudo docker-php-ext-configure gd --with-png-dir=/usr/include/ --with-jpeg-dir=/usr/include/
+          sudo docker-php-ext-install gd
+      - run:
          name: deploy
          command: |
           ssh -o StrictHostKeyChecking=no -t furofuroapp@${HOST_NAME} "cd FuroFuro && \
             git pull origin master && \
-            apt-get install -y libpng-dev libjpeg-dev && \
-            docker-php-ext-configure gd --with-png-dir=/usr/include/ --with-jpeg-dir=/usr/include/ && \
-            docker-php-ext-install gd && \
             composer install -n --no-dev --prefer-dist && \
             npm ci && \
             npm run prod && \
