@@ -9,7 +9,6 @@ use Illuminate\Support\Str;
 
 $factory->define(Article::class, function (Faker $faker) {
     return [
-        'id' => Str::random(12),
         'title' => $faker->title,
         'body' => $faker->text,
         'map_query' => $faker->city,

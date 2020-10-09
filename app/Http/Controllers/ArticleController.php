@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Article;
 use App\Photo;
+use App\Tag;
 use Illuminate\Http\Request;
 use App\Http\Requests\ArticleRequest;
 use Illuminate\Support\Facades\Storage;
@@ -26,7 +27,13 @@ class ArticleController extends Controller
 
     public function create()
     {
-        return view('articles.create');
+        $allTagNames = Tag::all()->map(function ($tag) {
+          return ['text' => $tag->name];
+        });
+
+        return view('articles.create', [
+          'allTagNames' => $allTagNames,
+        ]);
     }
 
     public function store(ArticleRequest $request)
@@ -45,32 +52,31 @@ class ArticleController extends Controller
 
       Storage::cloud()->putFileAs('', $main_file, $article->main_filename, 'public');
 
-      if(! empty($request->file('files'))) {
-        $files = $request->file('files');
-        foreach($files as $file) {
-          $photos[] = [
-            'filename' => $file->getClientOriginalName(),
-            'article_id' => $article->id,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-          ];
-
-          InterventionImage::make($file)
-                ->heighten(300)->save();
-
-          Storage::cloud()->putFileAs('', $file, $file->getClientOriginalName(), 'public');
-
-          $s3_filenames[] = $file->getClientOriginalName();
-        }
-      }
-
       DB::beginTransaction();
 
       try {
 
           $article->save();
           if(! empty($request->file('files'))) {
-              DB::table('photos')->insert($photos);
+            $files = $request->file('files');
+            foreach($files as $file) {
+              $photos[] = [
+                'filename' => $file->getClientOriginalName(),
+                'article_id' => $article->id,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+              ];
+
+              InterventionImage::make($file)
+                    ->heighten(300)->save();
+
+              Storage::cloud()->putFileAs('', $file, $file->getClientOriginalName(), 'public');
+
+              $s3_filenames[] = $file->getClientOriginalName();
+
+            }
+
+            DB::table('photos')->insert($photos);
           }
 
           DB::commit();
@@ -84,6 +90,11 @@ class ArticleController extends Controller
         }
         throw $exception;
       }
+
+      $request->tags->each(function ($tagName) use ($article) {
+        $tag = Tag::firstOrCreate(['name' => $tagName]);
+        $article->tags()->attach($tag);
+      });
 
       return redirect()->route('articles.index');
     }
@@ -104,9 +115,19 @@ class ArticleController extends Controller
     {
         $photos = $article->photos;
 
+        $tagNames = $article->tags->map(function ($tag) {
+          return ['text' => $tag->name];
+        });
+
+        $allTagNames = Tag::all()->map(function ($tag) {
+          return ['text' => $tag->name];
+        });
+
         return view('articles.edit', [
           'article' => $article,
           'photos' => $photos,
+          'tagNames' => $tagNames,
+          'allTagNames' => $allTagNames,
         ]);
     }
 
@@ -132,32 +153,31 @@ class ArticleController extends Controller
 
       Storage::cloud()->putFileAs('', $main_file, $article->main_filename, 'public');
 
-      if(! empty($request->file('files'))) {
-        $files = $request->file('files');
-        foreach($files as $file) {
-          $new_photos[] = [
-            'filename' => $file->getClientOriginalName(),
-            'article_id' => $article->id,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-          ];
-
-          InterventionImage::make($file)
-                ->heighten(300)->save();
-
-          Storage::cloud()->putFileAs('', $file, $file->getClientOriginalName(), 'public');
-
-          $s3_filenames[] = $file->getClientOriginalName();
-        }
-      }
-
       DB::beginTransaction();
 
       try {
 
           $article->save();
+
           if(! empty($request->file('files'))) {
-              DB::table('photos')->insert($new_photos);
+            $files = $request->file('files');
+            foreach($files as $file) {
+              $new_photos[] = [
+                'filename' => $file->getClientOriginalName(),
+                'article_id' => $article->id,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+              ];
+
+              InterventionImage::make($file)
+                    ->heighten(300)->save();
+
+              Storage::cloud()->putFileAs('', $file, $file->getClientOriginalName(), 'public');
+
+              $s3_filenames[] = $file->getClientOriginalName();
+            }
+
+            DB::table('photos')->insert($new_photos);
           }
 
           DB::commit();
@@ -171,6 +191,12 @@ class ArticleController extends Controller
         }
         throw $exception;
       }
+
+      $article->tags()->detach();
+      $request->tags->each(function ($tagName) use ($article) {
+        $tag = Tag::firstOrCreate(['name' => $tagName]);
+        $article->tags()->attach($tag);
+      });
 
       return redirect()->route('articles.show', ['article' => $article]);
     }
