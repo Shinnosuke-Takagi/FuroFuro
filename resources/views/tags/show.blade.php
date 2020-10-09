@@ -31,21 +31,21 @@
                   <button type="submit" class="btn btn-danger btn-sm">delete</button>
                 </form>
               @endif
-              <div class="ml-auto mr-4">
-                @foreach($article->tags as $tag)
-                @if($loop->first)
-                <div class="card-body pt-0 pb-4 pl-3">
-                  <div class="card-text line-height">
-                    @endif
-                    <a href="{{ route('tags.show', ['name' => $tag->name]) }}" class="border p-1 mr-1 mt-1 text-muted">
-                      {{ $tag->hashtag }}
-                    </a>
-                    @if($loop->last)
-                  </div>
+            </div>
+            <div class="d-flex flex-row">
+              @foreach($article->tags as $tag)
+              @if($loop->first)
+              <div class="card-body pt-3 pb-4 pl-3">
+                <div class="card-text line-height">
+                  @endif
+                  <a href="{{ route('tags.show', ['name' => $tag->name]) }}" class="border p-1 mr-1 mt-1 text-muted">
+                    {{ $tag->hashtag }}
+                  </a>
+                  @if($loop->last)
                 </div>
-                @endif
-                @endforeach
               </div>
+              @endif
+              @endforeach
             </div>
           </div>
         </div>
