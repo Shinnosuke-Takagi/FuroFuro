@@ -25,3 +25,5 @@ Route::prefix('articles')->name('articles.')->group(function() {
 
 Route::get('/articles/{article}/comment', 'CommentController@create')->name('comment.create')->middleware('auth');
 Route::post('/articles/{article}/comment', 'CommentController@store')->name('comment.store')->middleware('auth');
+
+Route::get('/tags/{name}', 'TagController@show')->name('tags.show');

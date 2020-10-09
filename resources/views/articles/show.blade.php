@@ -48,6 +48,21 @@
               </form>
             @endif
           </div>
+          <div class="d-flex flex-row">
+            @foreach($article->tags as $tag)
+            @if($loop->first)
+            <div class="card-body pt-3 pb-4 pl-3">
+              <div class="card-text line-height">
+                @endif
+                <a href="" class="border p-1 mr-1 mt-1 text-muted">
+                  {{ $tag->hashtag }}
+                </a>
+                @if($loop->last)
+              </div>
+            </div>
+            @endif
+            @endforeach
+          </div>
         </div>
         <div class="card-body">
           <h6 class="indigo-text"><i class="fas fa-align-left mr-1"></i>お店について</h6>
