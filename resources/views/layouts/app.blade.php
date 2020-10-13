@@ -55,7 +55,7 @@
                             @endif
                         @else
                             <li class="nav-item avatar pr-3">
-                              <a class="nav-link p-1" href="#">
+                              <a class="nav-link p-1" href="{{ route('users.show', ['name' => Auth::user()->name]) }}">
                                 @if(isset(Auth::user()->avatar))
                                   <img src="{{ config('filesystems.disks.s3.url'). Auth::user()->avatar }}" class="rounded-circle z-depth-0"
                                     alt="avatar image" height="35">

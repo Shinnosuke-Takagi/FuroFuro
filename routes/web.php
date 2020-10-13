@@ -27,3 +27,8 @@ Route::get('/articles/{article}/comment', 'CommentController@create')->name('com
 Route::post('/articles/{article}/comment', 'CommentController@store')->name('comment.store')->middleware('auth');
 
 Route::get('/tags/{name}', 'TagController@show')->name('tags.show');
+
+Route::prefix('users')->name('users.')->group(function() {
+  Route::get('/{name}', 'UserController@show')->name('show');
+  Route::get('/{name}/likes', 'UserController@likes')->name('likes');
+});

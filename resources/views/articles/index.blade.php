@@ -46,7 +46,7 @@
             </div>
             <div class="d-flex flex-row">
               <div class="ml-auto">
-                <a href="#" class="text-dark">
+                <a href="{{ route('users.show', ['name' => $article->user->name]) }}" class="text-dark">
                   by:
                   @if(isset($article->user->avatar))
                     <img src="{{ config('filesystems.disks.s3.url'). $article->user->avatar }}" class="rounded-circle z-depth-0"

@@ -6,7 +6,7 @@
       <div class="card-header text-white text-center">{{ $tag->hashtag }}</div>
     </div>
     <div class="card-deck">
-      @foreach($tag->articles as $article)
+      @foreach($articles as $article)
         <div class="card">
           <a href="{{ route('articles.show', ['article' => $article]) }}">
             <img class="card-img-top" src="{{ config('filesystems.disks.s3.url'). $article->main_filename }}" alt="">
@@ -46,6 +46,18 @@
               </div>
               @endif
               @endforeach
+            </div>
+            <div class="d-flex flex-row">
+              <div class="ml-auto">
+                <a href="{{ route('users.show', ['name' => $article->user->name]) }}" class="text-dark">
+                  by:
+                  @if(isset($article->user->avatar))
+                    <img src="{{ config('filesystems.disks.s3.url'). $article->user->avatar }}" class="rounded-circle z-depth-0"
+                      alt="avatar image" height="35">
+                  @endif
+                  {{ $article->user->name }}
+                </a>
+              </div>
             </div>
           </div>
         </div>
