@@ -11,6 +11,11 @@ class TagController extends Controller
     {
         $tag = Tag::where('name', $name)->first();
 
-        return view('tags.show', ['tag' => $tag]);
+        $articles = $tag->articles->sortByDesc('created_at');
+
+        return view('tags.show', [
+          'tag' => $tag,
+          'articles' => $articles,
+        ]);
     }
 }
