@@ -39,14 +39,14 @@
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
                         @guest
-                            <li class="nav-item">
+                            <li class="nav-item pr-3">
                                 <a class="nav-link" href="{{ route('login') }}">
                                   ログイン
                                   <i class="fas fa-sign-in-alt"></i>
                                 </a>
                             </li>
                             @if (Route::has('register'))
-                                <li class="nav-item">
+                                <li class="nav-item pr-3">
                                     <a class="nav-link" href="{{ route('register') }}">
                                       ユーザー登録
                                       <i class="fas fa-user-plus"></i>
@@ -54,21 +54,23 @@
                                 </li>
                             @endif
                         @else
-                            <li class="nav-item avatar">
-                              <a class="nav-link p-0" href="#">
-                                <img src="{{ config('filesystems.disks.s3.url'). Auth::user()->avatar }}" class="rounded-circle z-depth-0"
-                                  alt="avatar image" height="35">
+                            <li class="nav-item avatar pr-3">
+                              <a class="nav-link p-1" href="#">
+                                @if(isset(Auth::user()->avatar))
+                                  <img src="{{ config('filesystems.disks.s3.url'). Auth::user()->avatar }}" class="rounded-circle z-depth-0"
+                                    alt="avatar image" height="35">
+                                @endif
                                 {{ Auth::user()->name }}
                                 <i class="fas fa-user-cog"></i>
                               </a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item pr-3">
                               <a class="nav-link" href="{{ route('articles.create') }}">
                                 投稿する
                                 <i class="fas fa-plus"></i>
                               </a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item pr-3">
                               <a class="nav-link" href="{{ route('logout') }}"
                                   onclick="event.preventDefault();
                                                 document.getElementById('logout-form').submit();">

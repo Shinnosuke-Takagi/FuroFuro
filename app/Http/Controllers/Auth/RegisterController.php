@@ -68,7 +68,12 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $avatar_file = $data['avatar'];
+        if(! empty($data['avatar'])) {
+          $avatar_file = $data['avatar'];
+          $avatar_name = $data['avatar']->getClientOriginalName();
+        } else {
+          $avatar_name = null;
+        }
 
         $user = new User();
 
@@ -76,25 +81,29 @@ class RegisterController extends Controller
           'name' => $data['name'],
           'email' => $data['email'],
           'password' => Hash::make($data['password']),
-          'avatar' => $data['avatar']->getClientOriginalName(),
+          'avatar' => $avatar_name,
         ]);
 
-        InterventionImage::make($avatar_file)->fit(300, 300, function($constraint) {
-          $constraint->upsize();
-        })->save();
+        if(! empty($data['avatar'])) {
+          InterventionImage::make($avatar_file)->fit(300, 300, function($constraint) {
+            $constraint->upsize();
+          })->save();
 
-        Storage::cloud()->putFileAs('', $avatar_file, $user->avatar, 'public');
+          Storage::cloud()->putFileAs('', $avatar_file, $user->avatar, 'public');
 
-        DB::beginTransaction();
+          DB::beginTransaction();
 
-        try {
+          try {
+            $user->save();
+            DB::commit();
+          } catch(\Exception $exception) {
+            DB::rollback();
+
+            Storage::cloud()->delete($user->avatar);
+            throw $exception;
+          }
+        } else {
           $user->save();
-          DB::commit();
-        } catch(\Exception $exception) {
-          DB::rollback();
-
-          Storage::cloud()->delete($user->avatar);
-          throw $exception;
         }
 
         return $user;
