@@ -44,6 +44,18 @@
               @endif
               @endforeach
             </div>
+            <div class="d-flex flex-row">
+              <div class="ml-auto">
+                <a href="#" class="text-dark">
+                  by:
+                  @if(isset($article->user->avatar))
+                    <img src="{{ config('filesystems.disks.s3.url'). $article->user->avatar }}" class="rounded-circle z-depth-0"
+                      alt="avatar image" height="35">
+                  @endif
+                  {{ $article->user->name }}
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       @endforeach
