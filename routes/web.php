@@ -31,8 +31,8 @@ Route::prefix('articles')->name('articles.')->group(function() {
   Route::delete('/{article}/like', 'ArticleController@unlike')->name('unlike');
 });
 
-Route::get('/articles/{article}/comment', 'CommentController@create')->name('comment.create')->middleware('verified');
-Route::post('/articles/{article}/comment', 'CommentController@store')->name('comment.store')->middleware('verified');
+Route::get('/articles/{article}/comment', 'CommentController@create')->name('comment.create');
+Route::post('/articles/{article}/comment', 'CommentController@store')->name('comment.store');
 
 Route::get('/tags/{name}', 'TagController@show')->name('tags.show');
 
