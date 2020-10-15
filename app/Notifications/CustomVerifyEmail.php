@@ -42,10 +42,10 @@ class CustomVerifyEmail extends VerifyEmail
     public function toMail($notifiable)
     {
         return (new MailMessage)
-        ->subject(__('アカウント本登録用メールです'))
+        ->subject(__('メールアドレス確認用のメールです'))
         ->greeting('こんにちは！')
-        ->line('こちらのボタンからアカウントの本登録を行なってください。')
-        ->action(__('アカウントを作る'), $this->verificationUrl($notifiable))
+        ->line('こちらのボタンからメールアドレスの認証を行なってください。')
+        ->action(__('認証する'), $this->verificationUrl($notifiable))
         ->line('こちらのメールに身に覚えがない場合はなりすましなどの危険があるので破棄してください。');
     }
 
