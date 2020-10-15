@@ -24,11 +24,11 @@
             </div>
             <div class="d-flex flex-row">
               @if($article->user_id === Auth::id())
-                <a href="{{ route('articles.edit', ['article' => $article]) }}" class="btn btn-primary btn-sm">edit</a>
+                <a href="{{ route('articles.edit', ['article' => $article]) }}" class="btn btn-primary btn-sm">修正</a>
                 <form method="POST" action="{{ route('articles.destroy', ['article' => $article]) }}">
                   @method('DELETE')
                   @csrf
-                  <button type="submit" class="btn btn-danger btn-sm">delete</button>
+                  <button type="submit" class="btn btn-danger btn-sm">削除</button>
                 </form>
               @endif
             </div>

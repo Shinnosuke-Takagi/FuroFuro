@@ -14,9 +14,15 @@
       @endif
 
       <!-- Content -->
-      <div class="card-body">
+      <div class="card-body d-flex flex-column">
         <!-- Name -->
         <h4 class="card-title text-center">{{ $user->name }}</h4>
+        @if(Auth::id() === $user->id)
+          <div class="text-center">
+            <a href="{{ route('users.profileEdit', ['name' => $user->name]) }}" type="button" class="btn btn-default w-30">プロフィールの編集</a>
+            <a href="{{ route('users.accountEdit', ['name' => $user->name]) }}" type="button" class="btn btn-success w-30">アカウント情報の変更</a>
+          </div>
+        @endif
         <hr>
 
         <ul class="nav nav-tabs nav-justified mb-3">
@@ -50,11 +56,11 @@
                 </div>
                 <div class="d-flex flex-row">
                   @if($article->user_id === Auth::id())
-                    <a href="{{ route('articles.edit', ['article' => $article]) }}" class="btn btn-primary btn-sm">edit</a>
+                    <a href="{{ route('articles.edit', ['article' => $article]) }}" class="btn btn-primary btn-sm">修正</a>
                     <form method="POST" action="{{ route('articles.destroy', ['article' => $article]) }}">
                       @method('DELETE')
                       @csrf
-                      <button type="submit" class="btn btn-danger btn-sm">delete</button>
+                      <button type="submit" class="btn btn-danger btn-sm">削除</button>
                     </form>
                   @endif
                 </div>

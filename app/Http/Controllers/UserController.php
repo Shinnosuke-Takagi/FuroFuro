@@ -34,4 +34,33 @@ class UserController extends Controller
           'activeLike' => true,
         ]);
     }
+
+    public function profileEdit(string $name)
+    {
+        $auth_user = User::where('name', $name)->first();
+
+        return view('users.profileEdit', ['auth_user' => $auth_user]);
+    }
+
+    public function profileUpdate(Request $request, string $name)
+    {
+        dd($request->name);
+    }
+
+    public function accountEdit(string $name)
+    {
+        $auth_user = User::where('name', $name)->first();
+
+        return view('users.accountEdit', ['auth_user' => $auth_user]);
+    }
+
+    public function emailUpdate(Request $request, string $name)
+    {
+        dd($request);
+    }
+
+    public function passwordUpdate(Request $request, string $name)
+    {
+        dd($request);
+    }
 }
