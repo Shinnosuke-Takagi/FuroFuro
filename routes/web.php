@@ -30,5 +30,10 @@ Route::get('/tags/{name}', 'TagController@show')->name('tags.show');
 
 Route::prefix('users')->name('users.')->group(function() {
   Route::get('/{name}', 'UserController@show')->name('show');
+  Route::get('/{name}/profileEdit', 'UserController@profileEdit')->name('profileEdit');
+  Route::patch('/{name}/profileUpdate', 'UserController@profileUpdate')->name('profileUpdate');
+  Route::get('/{name}/accountEdit', 'UserController@accountEdit')->name('accountEdit');
+  Route::patch('/{name}/emailUpdate', 'UserController@emailUpdate')->name('emailUpdate');
+  Route::patch('/{name}/passwordUpdate', 'UserController@passwordUpdate')->name('passwordUpdate');
   Route::get('/{name}/likes', 'UserController@likes')->name('likes');
 });
