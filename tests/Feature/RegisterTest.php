@@ -37,7 +37,6 @@ class RegisterTest extends TestCase
         $this->assertEquals($data['name'], $user->name);
 
         Storage::cloud()->assertExists($user->avatar);
-
     }
 
     public function testShould_not_save_file_to_s3_if_db_users_error()

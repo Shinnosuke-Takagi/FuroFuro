@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card text-center">
-                <div class="card-header aqua-gradient text-white">アカウントの仮登録の状態です。</div>
+                <div class="card-header aqua-gradient text-white">メールアドレスが未認証の状態です。</div>
 
                 <div class="card-body">
                     @if (session('resent'))
@@ -14,7 +14,7 @@
                         </div>
                     @endif
 
-                    お送りしたメールから本登録を行なってください。
+                    お送りしたメールからメールアドレスの認証を行なってください。
                     <p>メールが届かない場合は下のボタンから再送信をお願いします。</p>
                     <form method="POST" action="{{ route('verification.resend') }}">
                         @csrf

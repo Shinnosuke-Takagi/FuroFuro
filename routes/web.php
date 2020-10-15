@@ -14,13 +14,21 @@ use Illuminate\Support\Facades\Route;
 */
 Auth::routes(['verify' => true]);
 
+Route::get('/verifyEmail', function() {
+  return view('auth.verify');
+});
+
+Route::get('/verified', function() {
+  return view('auth.verified');
+})->middleware('verified');
+
 Route::get('/', 'ArticleController@index')->name('articles.index');
-Route::resource('/articles', 'ArticleController')->except(['index', 'show'])->middleware('verified');
+Route::resource('/articles', 'ArticleController')->except(['index', 'show']);
 Route::resource('/articles', 'ArticleController')->only(['show']);
 
 Route::prefix('articles')->name('articles.')->group(function() {
-  Route::put('/{article}/like', 'ArticleController@like')->name('like')->middleware('verified');
-  Route::delete('/{article}/like', 'ArticleController@unlike')->name('unlike')->middleware('verified');
+  Route::put('/{article}/like', 'ArticleController@like')->name('like');
+  Route::delete('/{article}/like', 'ArticleController@unlike')->name('unlike');
 });
 
 Route::get('/articles/{article}/comment', 'CommentController@create')->name('comment.create')->middleware('verified');
@@ -32,10 +40,10 @@ Route::prefix('users')->name('users.')->group(function() {
   Route::get('/{name}', 'UserController@show')->name('show');
   Route::get('/{name}/likes', 'UserController@likes')->name('likes');
 
-  Route::get('/{name}/profileEdit', 'UserController@profileEdit')->name('profileEdit')->middleware('verified');
-  Route::patch('/{name}/profileUpdate', 'UserController@profileUpdate')->name('profileUpdate')->middleware('verified');
+  Route::get('/{name}/profileEdit', 'UserController@profileEdit')->name('profileEdit');
+  Route::patch('/{name}/profileUpdate', 'UserController@profileUpdate')->name('profileUpdate');
 
-  Route::get('/{name}/accountEdit', 'UserController@accountEdit')->name('accountEdit')->middleware('verified');
-  Route::patch('/{name}/emailUpdate', 'UserController@emailUpdate')->name('emailUpdate')->middleware('verified');
-  Route::patch('/{name}/passwordUpdate', 'UserController@passwordUpdate')->name('passwordUpdate')->middleware('verified');
+  Route::get('/{name}/accountEdit', 'UserController@accountEdit')->name('accountEdit');
+  Route::patch('/{name}/emailUpdate', 'UserController@emailUpdate')->name('emailUpdate');
+  Route::patch('/{name}/passwordUpdate', 'UserController@passwordUpdate')->name('passwordUpdate');
 });

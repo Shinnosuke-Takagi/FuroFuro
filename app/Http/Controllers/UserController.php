@@ -4,9 +4,16 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->only(['destroy']);
+        $this->middleware('verified')->except(['index', 'show']);
+    }
+
     public function show(string $name)
     {
         $user = User::where('name', $name)->first();
@@ -56,7 +63,18 @@ class UserController extends Controller
 
     public function emailUpdate(Request $request, string $name)
     {
-        dd($request);
+        $request->validate([
+          'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+        ]);
+
+        $user = User::where('name', $name)->first();
+
+        $user->email = $request->email;
+        $user->email_verified_at = null;
+        $user->save();
+        $user->sendEmailVerificationNotification();
+
+        return redirect()->to('/verifyEmail');
     }
 
     public function passwordUpdate(Request $request, string $name)
