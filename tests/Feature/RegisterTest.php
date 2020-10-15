@@ -34,8 +34,6 @@ class RegisterTest extends TestCase
 
         $user = User::first();
 
-        $response->assertStatus(201);
-
         $this->assertEquals($data['name'], $user->name);
 
         Storage::cloud()->assertExists($user->avatar);

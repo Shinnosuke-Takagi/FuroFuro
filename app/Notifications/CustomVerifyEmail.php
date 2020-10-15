@@ -6,9 +6,9 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use Illuminate\Auth\Notifications\ResetPassword;
+use Illuminate\Auth\Notifications\VerifyEmail;
 
-class CustomPasswordReset extends ResetPassword
+class CustomVerifyEmail extends VerifyEmail
 {
     use Queueable;
 
@@ -17,9 +17,9 @@ class CustomPasswordReset extends ResetPassword
      *
      * @return void
      */
-    public function __construct($token)
+    public function __construct()
     {
-        $this->token = $token;
+        //
     }
 
     /**
@@ -42,11 +42,11 @@ class CustomPasswordReset extends ResetPassword
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->subject(__('パスワード再設定メールです'))
-                    ->greeting('こんにちは！')
-                    ->line('こちらはパスワードをリセットされたいという方に送らせて頂いております。')
-                    ->action(__('パスワードをリセットする'), url('password/reset', $this->token))
-                    ->line('こちらのメールに身に覚えがない場合はなりすましなどの危険があるので破棄してください。');
+        ->subject(__('アカウント本登録用メールです'))
+        ->greeting('こんにちは！')
+        ->line('こちらのボタンからアカウントの本登録を行なってください。')
+        ->action(__('アカウントを作る'), $this->verificationUrl($notifiable))
+        ->line('こちらのメールに身に覚えがない場合はなりすましなどの危険があるので破棄してください。');
     }
 
     /**
