@@ -6,6 +6,9 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use InterventionImage;
 
 class UserController extends Controller
 {
@@ -52,7 +55,48 @@ class UserController extends Controller
 
     public function profileUpdate(Request $request, string $name)
     {
-        dd($request->name);
+        $user = User::where('name', $name)->first();
+
+        $request->validate([
+          'name' => ['required', 'string', 'max:255', 'unique:users'],
+          'avatar' => ['file', 'mimes:jpg,jpeg,png,gif'],
+        ]);
+        
+        Storage::cloud()->delete($user->avatar);
+
+        if(! empty($request->file('avatar'))) {
+          $avatar_file = $request->file('avatar');
+          $avatar_name = $request->file('avatar')->getClientOriginalName();
+        } else {
+          $avatar_name = null;
+        }
+
+        $user->name = $request->name;
+        $user->avatar = $avatar_name;
+
+        if(! empty($request->file('avatar'))) {
+          InterventionImage::make($avatar_file)->fit(300, 300, function($constraint) {
+            $constraint->upsize();
+          })->save();
+
+          Storage::cloud()->putFileAs('', $avatar_file, $user->avatar, 'public');
+
+          DB::beginTransaction();
+
+          try {
+            $user->save();
+            DB::commit();
+          } catch(\Exception $exception) {
+            DB::rollback();
+
+            Storage::cloud()->delete($user->avatar);
+            throw $exception;
+          }
+        } else {
+          $user->save();
+        }
+
+        return redirect()->route('users.show', ['name' => $user->name]);
     }
 
     public function accountEdit(string $name)

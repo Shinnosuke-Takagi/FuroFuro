@@ -32,8 +32,14 @@
                           <label for="avatar" class="col-md-4 col-form-label text-md-right">現在の画像</label>
 
                           <div class="avatar white m-3 p-0 col-md-4">
-                            <img src="{{ config('filesystems.disks.s3.url'). $auth_user->avatar }}" class="rounded float-left"
-                              alt="avatar image" height="100px">
+                            @if(isset($auth_user->avatar))
+                              <img src="{{ config('filesystems.disks.s3.url'). $auth_user->avatar }}" class="rounded float-left"
+                                alt="avatar image" height="100px">
+                            @else
+                              <div class="alert alert-light" role="alert">
+                                画像は設定されていません
+                              </div>
+                            @endif
                             <input id="avatar" type="file" class="form-control" name="avatar">
                           </div>
 
