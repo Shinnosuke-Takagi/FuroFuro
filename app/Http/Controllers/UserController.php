@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -79,6 +80,17 @@ class UserController extends Controller
 
     public function passwordUpdate(Request $request, string $name)
     {
-        dd($request);
+        $request->validate([
+          'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
+
+        $user = User::where('name', $name)->first();
+
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        $user->sendChangePasswordNotification($user->name);
+
+        return redirect()->route('users.show', ['name' => $user->name]);
     }
 }
