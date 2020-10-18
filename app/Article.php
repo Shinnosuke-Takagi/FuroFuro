@@ -44,4 +44,9 @@ class Article extends Model
         return $this->likes->count();
     }
 
+    public function getCountCommentsAttribute()
+    {
+        return $this->comments->count();
+    }
+
 }
