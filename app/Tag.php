@@ -19,4 +19,9 @@ class Tag extends Model
     {
         return $this->belongsToMany('App\Article')->withTimestamps();
     }
+
+    public function getCountArticlesAttribute()
+    {
+        return $this->articles->count();
+    }
 }

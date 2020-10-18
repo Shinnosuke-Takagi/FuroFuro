@@ -83,6 +83,15 @@
                                 @csrf
                             </form>
                         @endguest
+                        <li class="nav-item pr-3">
+                          <form method="GET" action="{{ route('search') }}" class="form-inline">
+                            @csrf
+                            <div class="md-form m-0">
+                              <input class="form-control" type="text" name="keyword" placeholder="Search" aria-label="Search">
+                            </div>
+                            <button type="submit" class="btn btn-outline-white btn-rounded btn-sm ml-1">Search</button>
+                          </form>
+                        </li>
                     </ul>
                 </div>
             </div>
