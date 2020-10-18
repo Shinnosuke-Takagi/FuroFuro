@@ -45,7 +45,7 @@
                           <label for="password" class="col-md-4 col-form-label text-md-right">パスワードの変更</label>
 
                           <div class="col-md-6">
-                              <input id="password" type="password" class="form-control" name="password">
+                              <input id="password" type="password" class="form-control" name="password" placeholder="新しいパスワードを入力してください">
                           </div>
                       </div>
 
@@ -53,7 +53,7 @@
                           <label for="password-confirm" class="col-md-4 col-form-label text-md-right">パスワードの変更（確認用）</label>
 
                           <div class="col-md-6">
-                              <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                              <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password" placeholder="もう一度新しいパスワードを入力してください">
                           </div>
                       </div>
 
