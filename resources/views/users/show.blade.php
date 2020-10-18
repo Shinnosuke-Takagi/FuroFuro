@@ -53,6 +53,10 @@
                   :authorized='@json(Auth::check())'
                   endpoint="{{ route('articles.like', ['article' => $article]) }}"
                   ></article-like>
+                  <div class="indigo-text">
+                    <i class="far fa-comment-dots mr-1 p-1"></i>
+                      {{ $article->count_comments }}
+                  </div>
                 </div>
                 <div class="d-flex flex-row">
                   @if($article->user_id === Auth::id())

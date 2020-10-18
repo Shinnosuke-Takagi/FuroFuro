@@ -37,6 +37,10 @@
               :authorized='@json(Auth::check())'
               endpoint="{{ route('articles.like', ['article' => $article]) }}"
             ></article-like>
+            <div class="indigo-text">
+              <i class="far fa-comment-dots mr-1 p-1"></i>
+                {{ $article->count_comments }}
+            </div>
           </div>
           <div class="d-flex flex-row">
             @if($article->user_id === Auth::id())
@@ -98,8 +102,16 @@
           </div>
             @foreach($comments as $comment)
             <div class="card-body">
-              <h5 class="card-title">{{ $comment->user->name }}</h5>
-              <p class="card-text">{{ $comment->content }}</p>
+              <div class="d-flex flex-row">
+                <a href="{{ route('users.show', ['name' => $comment->user->name]) }}" class="text-dark">
+                  @if(isset($comment->user->avatar))
+                  <img src="{{ config('filesystems.disks.s3.url'). $comment->user->avatar }}" class="rounded-circle z-depth-0"
+                  alt="avatar image" height="35">
+                  @endif
+                  {{ $comment->user->name }}</h5>
+                </a>
+              </div>
+              <p class="card-text mt-3">{{ $comment->content }}</p>
             </div>
             @endforeach
             <div class="card-body">
