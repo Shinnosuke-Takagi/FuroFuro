@@ -108,10 +108,13 @@
                   <img src="{{ config('filesystems.disks.s3.url'). $comment->user->avatar }}" class="rounded-circle z-depth-0"
                   alt="avatar image" height="35">
                   @endif
-                  {{ $comment->user->name }}</h5>
+                  {{ $comment->user->name }}
                 </a>
               </div>
               <p class="card-text mt-3">{{ $comment->content }}</p>
+              <div class="d-flex justify-content-end">
+                {{ $comment->created_at }}
+              </div>
             </div>
             @endforeach
             <div class="card-body">
