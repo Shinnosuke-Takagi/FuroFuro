@@ -36,6 +36,8 @@ Route::post('/articles/{article}/comment', 'CommentController@store')->name('com
 
 Route::get('/tags/{name}', 'TagController@show')->name('tags.show');
 
+Route::get('/search', 'SearchController@result')->name('search');
+
 Route::prefix('users')->name('users.')->group(function() {
   Route::get('/{name}', 'UserController@show')->name('show');
   Route::get('/{name}/likes', 'UserController@likes')->name('likes');
