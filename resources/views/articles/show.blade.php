@@ -101,21 +101,46 @@
             @endif
           </div>
             @foreach($comments as $comment)
-            <div class="card-body">
-              <div class="d-flex flex-row">
-                <a href="{{ route('users.show', ['name' => $comment->user->name]) }}" class="text-dark">
-                  @if(isset($comment->user->avatar))
-                  <img src="{{ config('filesystems.disks.s3.url'). $comment->user->avatar }}" class="rounded-circle z-depth-0"
-                  alt="avatar image" height="35">
+              <div class="card card-body">
+                <div class="d-flex flex-row">
+                  <a href="{{ route('users.show', ['name' => $comment->user->name]) }}" class="text-dark">
+                    @if(isset($comment->user->avatar))
+                    <img src="{{ config('filesystems.disks.s3.url'). $comment->user->avatar }}" class="rounded-circle z-depth-0"
+                    alt="avatar image" height="35">
+                    @endif
+                    {{ $comment->user->name }}
+                  </a>
+                </div>
+                <p class="card-text mt-3">{{ $comment->content }}</p>
+                <div class="d-flex justify-content-between mt-4">
+                  @if($comment->user_id !== Auth::id())
+                    <a href="{{ route('reply.create', ['comment' => $comment]) }}" class="indigo-text">
+                      <i class="fas fa-reply"></i>
+                      返信する
+                    </a>
                   @endif
-                  {{ $comment->user->name }}
-                </a>
+                  <p class="ml-auto">
+                    {{ $comment->created_at }}
+                  </p>
+                </div>
               </div>
-              <p class="card-text mt-3">{{ $comment->content }}</p>
-              <div class="d-flex justify-content-end">
-                {{ $comment->created_at }}
-              </div>
-            </div>
+              @foreach($comment->replies as $reply)
+                <div class="card card-body ml-5 m-1">
+                  <div class="d-flex flex-row">
+                    <a href="{{ route('users.show', ['name' => $reply->user->name]) }}" class="text-dark">
+                      @if(isset($reply->user->avatar))
+                      <img src="{{ config('filesystems.disks.s3.url'). $reply->user->avatar }}" class="rounded-circle z-depth-0"
+                      alt="avatar image" height="35">
+                      @endif
+                      {{ $reply->user->name }}
+                    </a>
+                  </div>
+                  <p class="card-text mt-3">{{ $reply->content }}</p>
+                  <div class="d-flex justify-content-end">
+                    {{ $reply->created_at }}
+                  </div>
+                </div>
+              @endforeach
             @endforeach
             <div class="card-body">
               {{ $comments->links() }}

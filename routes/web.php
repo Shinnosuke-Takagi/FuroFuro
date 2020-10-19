@@ -34,6 +34,9 @@ Route::prefix('articles')->name('articles.')->group(function() {
 Route::get('/articles/{article}/comment', 'CommentController@create')->name('comment.create');
 Route::post('/articles/{article}/comment', 'CommentController@store')->name('comment.store');
 
+Route::get('/comments/{comment}/reply', 'ReplyController@create')->name('reply.create');
+Route::post('/comments/{comment}/reply', 'ReplyController@store')->name('reply.store');
+
 Route::get('/tags/{name}', 'TagController@show')->name('tags.show');
 
 Route::get('/search', 'SearchController@result')->name('search');

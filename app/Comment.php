@@ -10,4 +10,14 @@ class Comment extends Model
     {
         return $this->belongsTo('App\User');
     }
+
+    public function article()
+    {
+        return $this->belongsTo('App\Article');
+    }
+
+    public function replies()
+    {
+        return $this->hasMany('App\Reply');
+    }
 }
