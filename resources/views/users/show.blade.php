@@ -28,7 +28,7 @@
         <ul class="nav nav-tabs nav-justified mb-3">
           <li class="nav-item">
             <a class="nav-link text-muted {{ $activeArticle ? 'active' : '' }}" href="{{ route('users.show', ['name' => $user->name]) }}">
-              <i class="fas fa-user-edit pr-2"></i>記事</a>
+              <i class="fas fa-user-edit pr-2"></i>投稿</a>
           </li>
           <li class="nav-item">
             <a class="nav-link text-muted {{ $activeLike ? 'active' : '' }}" href="{{ route('users.likes', ['name' => $user->name]) }}">
