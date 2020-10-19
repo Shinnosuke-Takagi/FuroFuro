@@ -15,7 +15,7 @@ class UserController extends Controller
     public function __construct()
     {
         $this->middleware('auth')->only(['destroy']);
-        $this->middleware('verified')->except(['index', 'show']);
+        $this->middleware('verified')->except(['show', 'likes']);
     }
 
     public function show(string $name)
@@ -61,7 +61,7 @@ class UserController extends Controller
           'name' => ['required', 'string', 'max:255', 'unique:users'],
           'avatar' => ['file', 'mimes:jpg,jpeg,png,gif'],
         ]);
-        
+
         Storage::cloud()->delete($user->avatar);
 
         if(! empty($request->file('avatar'))) {
