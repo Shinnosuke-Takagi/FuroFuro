@@ -3,11 +3,19 @@
 @section('content')
   <div class="container">
       <div class="list-group">
+        @foreach($articles as $article)
+          <a href="{{ route('articles.show', ['article' => $article]) }}" class="list-group-item list-group-item-action aqua-gradient mb-1">
+            <div class="text-white d-flex flex-row justify-content-center">
+              <i class="fas fa-hot-tub mr-2 indigo-text mb-0"></i>
+              <p class="mb-0">{{ $article->title }}</p>
+            </div>
+          </a>
+        @endforeach
         @foreach($tags as $tag)
           <a href="{{ route('tags.show', ['name' => $tag->name]) }}" class="list-group-item list-group-item-action aqua-gradient mb-1">
             <div class="text-white d-flex flex-row justify-content-center">
-              <p class="mr-3">{{ $tag->hashtag }}</p>
-              <p>投稿{{ $tag->count_articles }}件</p>
+              <p class="mr-3 mb-0">{{ $tag->hashtag }}</p>
+              <p class="mb-0">投稿{{ $tag->count_articles }}件</p>
             </div>
           </a>
         @endforeach
