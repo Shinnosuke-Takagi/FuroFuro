@@ -62,37 +62,33 @@ class UserController extends Controller
           'avatar' => ['file', 'mimes:jpg,jpeg,png,gif'],
         ]);
 
-        Storage::cloud()->delete($user->avatar);
-
         if(! empty($request->file('avatar'))) {
-          $avatar_file = $request->file('avatar');
-          $avatar_name = $request->file('avatar')->getClientOriginalName();
-        } else {
-          $avatar_name = null;
-        }
-
-        $user->name = $request->name;
-        $user->avatar = $avatar_name;
-
-        if(! empty($request->file('avatar'))) {
-          InterventionImage::make($avatar_file)->fit(300, 300, function($constraint) {
-            $constraint->upsize();
-          })->save();
-
-          Storage::cloud()->putFileAs('', $avatar_file, $user->avatar, 'public');
-
-          DB::beginTransaction();
-
-          try {
-            $user->save();
-            DB::commit();
-          } catch(\Exception $exception) {
-            DB::rollback();
-
             Storage::cloud()->delete($user->avatar);
-            throw $exception;
-          }
+
+            $avatar_file = $request->file('avatar');
+
+            $user->name = $request->name;
+            $user->avatar = $request->file('avatar')->getClientOriginalName();
+
+            InterventionImage::make($avatar_file)->fit(300, 300, function($constraint) {
+              $constraint->upsize();
+            })->save();
+
+            Storage::cloud()->putFileAs('', $avatar_file, $user->avatar, 'public');
+
+            DB::beginTransaction();
+
+            try {
+              $user->save();
+              DB::commit();
+            } catch(\Exception $exception) {
+              DB::rollback();
+
+              Storage::cloud()->delete($user->avatar);
+              throw $exception;
+            }
         } else {
+          $user->name = $request->name;
           $user->save();
         }
 
