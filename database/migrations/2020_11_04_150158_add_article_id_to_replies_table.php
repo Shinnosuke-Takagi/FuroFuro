@@ -14,8 +14,8 @@ class AddArticleIdToRepliesTable extends Migration
     public function up()
     {
         Schema::table('replies', function (Blueprint $table) {
-          $table->unsignedBigInteger('article_id');
-          $table->foreign('article_id')->references('id')->on('articles')->onDelete('cascade');
+            $table->unsignedBigInteger('article_id');
+            $table->foreign('article_id')->references('id')->on('articles')->onDelete('cascade');
         });
     }
 
