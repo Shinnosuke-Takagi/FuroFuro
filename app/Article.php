@@ -27,6 +27,11 @@ class Article extends Model
         return $this->hasMany('App\Comment');
     }
 
+    public function replies()
+    {
+        return $this->hasMany('App\Reply');
+    }
+
     public function tags()
     {
         return $this->belongsToMany('App\Tag');
@@ -44,9 +49,13 @@ class Article extends Model
         return $this->likes->count();
     }
 
-    public function getCountCommentsAttribute()
+    public function getCountCommentsRepliesAttribute()
     {
-        return $this->comments->count();
+        $comments = $this->comments->count();
+        $replies = $this->replies->count();
+        $comments_replies =  $comments + $replies;
+
+        return $comments_replies;
     }
 
 }

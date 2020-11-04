@@ -21,13 +21,14 @@ class ReplyController extends Controller
 
     public function store(ReplyRequest $request, Comment $comment, Reply $reply)
     {
+        $article = $comment->article;
+
         $reply->comment_id = $comment->id;
         $reply->user_id = $request->user()->id;
         $reply->content = $request->content;
-
+        $reply->article_id = $article->id;
         $reply->save();
 
-        $article = $comment->article;
 
         return redirect()->route('articles.show', ['article' => $article]);
     }
