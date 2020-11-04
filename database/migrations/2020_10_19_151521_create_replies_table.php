@@ -20,6 +20,8 @@ class CreateRepliesTable extends Migration
             $table->unsignedBigInteger('comment_id');
             $table->foreign('comment_id')->references('id')->on('comments')->onDelete('cascade');
             $table->text('content');
+            $table->unsignedBigInteger('article_id');
+            $table->foreign('article_id')->references('id')->on('articles')->onDelete('cascade');
             $table->timestamps();
         });
     }

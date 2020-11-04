@@ -55,7 +55,7 @@
                   ></article-like>
                   <div class="indigo-text">
                     <i class="far fa-comment-dots mr-1 p-1"></i>
-                      {{ $article->count_comments }}
+                      {{ $article->count_comments_replies }}
                   </div>
                 </div>
                 <div class="d-flex flex-row">

@@ -39,7 +39,7 @@
             ></article-like>
             <div class="indigo-text">
               <i class="far fa-comment-dots mr-1 p-1"></i>
-                {{ $article->count_comments }}
+                {{ $article->count_comments_replies }}
             </div>
           </div>
           <div class="d-flex flex-row">
@@ -94,14 +94,14 @@
           </div>
         </div>
 
-          <div class="card-body">
+          <div class="card-body pb-0">
             <h6 class="indigo-text"><i class="fas fa-comments mr-1"></i>みんなのコメント</h6>
             @if($article->user_id !== Auth::id())
               <a href="{{ route('comment.create', ['article' => $article]) }}" class="btn btn-primary btn-sm ml-auto">Add Comment</a>
             @endif
           </div>
             @foreach($comments as $comment)
-              <div class="card card-body">
+              <div class="card card-body mt-4 pb-0">
                 <div class="d-flex flex-row">
                   <a href="{{ route('users.show', ['name' => $comment->user->name]) }}" class="text-dark">
                     @if(isset($comment->user->avatar))
@@ -114,11 +114,15 @@
                 <p class="card-text mt-3">{{ $comment->content }}</p>
                 <div class="d-flex justify-content-between mt-4">
                   @if($comment->user_id !== Auth::id())
-                    <a href="{{ route('reply.create', ['comment' => $comment]) }}" class="indigo-text">
+                    <a href="{{ route('reply.create', ['comment' => $comment]) }}" class="indigo-text pr-4">
                       <i class="fas fa-reply"></i>
                       返信する
                     </a>
                   @endif
+                  <p class="indigo-text">
+                    <i class="fas fa-reply-all pr-1"></i>
+                    {{ $comment->replies->count() }}
+                  </p>
                   <p class="ml-auto">
                     {{ $comment->created_at }}
                   </p>
