@@ -5,6 +5,14 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
+              <div class="card-header teal accent-4 text-white">簡易ログインもできます</div>
+              <div class="card-body text-center">
+                <a href="{{ route('login.guest') }}">
+                    <button type="submit" class="btn btn-cyan">簡易ログイン</button>
+                </a>
+              </div>
+            </div>
+            <div class="card mt-4">
                 <div class="card-header aqua-gradient text-white">ログイン</div>
 
                 <div class="card-body">
