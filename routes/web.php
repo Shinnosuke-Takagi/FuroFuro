@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Route;
 */
 Auth::routes(['verify' => true]);
 
+Route::get('/login/guest', 'Auth\LoginController@guestLogin')->name('login.guest');
+
 Route::get('/verifyEmail', function() {
   return view('auth.verify');
 });
