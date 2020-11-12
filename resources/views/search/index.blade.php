@@ -29,7 +29,7 @@
           </a>
         @endforeach
     </div>
-    @if($tags->isEmpty() && $users->isEmpty())
+    @if($tags->isEmpty() && $users->isEmpty() && $articles->isEmpty())
       <div class="row justify-content-center">
           <div class="col-md-8">
               <div class="card text-center">
