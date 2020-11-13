@@ -28,3 +28,4 @@
 - データベース（AWS RDS）
 - CI/CDパイプライン（CircleCI）
 - バージョン管理（Github）
+- 仮想環境（Docker）
