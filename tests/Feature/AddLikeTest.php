@@ -48,7 +48,7 @@ class AddLikeTest extends TestCase
       $response = $this->actingAs($this->user)
           ->json('PUT', route('articles.like', ['article' => $article]));
       $response = $this->actingAs($this->user)
-          ->json('PUT', route('articles.like', ['article' => $article]));    
+          ->json('PUT', route('articles.like', ['article' => $article]));
 
       $response->assertStatus(200)
           ->assertJson([
