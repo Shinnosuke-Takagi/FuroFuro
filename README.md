@@ -22,10 +22,17 @@
 - プロフィール、アカウント変更機能（メール認証つき, AWS SES）
 - ゲストログイン機能
 
+## その他
+
+- laravel-debugbarを使ったN+1問題の解消
+- intervention/imageを使った画像サイズの調整
+- league/flysystem-aws-s3-v3を使ったAWS S3への画像のアップロード
+- phpunit CircleCI を使ったCI/CDパイプラインの構築
+
 ## 環境構築
 
 - サーバー（AWS EC2）
 - データベース（AWS RDS）
 - CI/CDパイプライン（CircleCI）
-- バージョン管理（Github）
+- ソースコード管理（Github）
 - 仮想環境（Docker）
