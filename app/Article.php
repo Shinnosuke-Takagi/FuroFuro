@@ -7,6 +7,10 @@ use Illuminate\Support\Arr;
 
 class Article extends Model
 {
+    protected $with = [
+      'user', 'comments', 'replies', 'tags'
+    ];
+
     public function user()
     {
         return $this->belongsTo('App\User');
